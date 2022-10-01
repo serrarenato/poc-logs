@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <Property name="LOGS">./logs</Property>
+        <Property name="FILENAME">poc.log</Property>
+        <Property name="ARCHIVED">archived</Property>
+        <Property name="FILE-SIZE">2MB</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%style{%d{ISO8601}}{black} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %msg%n%throwable" />
+        </Console>
+
+        <RollingFile name="RollingFile"
+                     fileName="./${LOGS}/${FILENAME}"
+                     filePattern="./${LOGS}/${ARCHIVED}/${FILENAME}-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout>
+                <pattern>%d %p %C{1.} [%t] %msg%n%throwable{1}</pattern>
+            </PatternLayout>
+            <Policies>
+                <!-- rollover on startup, daily and when the file reaches
+                    10 MegaBytes -->
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy
+                        size="${FILE-SIZE}" />
+                <TimeBasedTriggeringPolicy />
+            </Policies>
+            <DefaultRolloverStrategy max="1">
+                <Delete basePath="${LOGS}" maxDepth="1">
+                    <ifAccumulatedFileSize exceeds="1 MB" />
+                </Delete>
+            </DefaultRolloverStrategy>
+
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- LOG everything at INFO level -->
+        <Root level="info">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </Root>
+    </Loggers>
+
+</Configuration>
