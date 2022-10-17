@@ -2,7 +2,7 @@
 <configuration>
 
     <property name="LOGS" value="./logs" />
-    <property name="FILENAME" value="poc.log" />
+    <property name="FILENAME" value="poc" />
     <property name="ARCHIVED" value="archived" />
     <property name="FILESIZE" value="1MB" />
     <appender name="Console"
@@ -16,7 +16,7 @@
 
     <appender name="RollingFile"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOGS}/${FILENAME}</file>
+        <file>${LOGS}/${FILENAME}.log</file>
 
         <encoder
                 class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
@@ -39,7 +39,7 @@
     </appender>
 
     <!-- LOG everything at INFO level -->
-    <root level="info">
+    <root level="${ROOT_LOG_LEVEL:-ERROR}">
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </root>

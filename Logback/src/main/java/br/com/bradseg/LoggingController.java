@@ -26,6 +26,6 @@ public class LoggingController {
         }catch(Exception e){
             logger.error(e.getMessage(),e);
         }
-        return "O usuario esta logado";
+        return "O usuario esta logado Logback";
     }
 }

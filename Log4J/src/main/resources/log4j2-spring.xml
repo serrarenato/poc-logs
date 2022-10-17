@@ -2,7 +2,7 @@
 <Configuration>
     <Properties>
         <Property name="LOGS">./logs</Property>
-        <Property name="FILENAME">poc.log</Property>
+        <Property name="FILENAME">poc</Property>
         <Property name="ARCHIVED">archived</Property>
         <Property name="FILE-SIZE">2MB</Property>
     </Properties>
@@ -13,10 +13,10 @@
         </Console>
 
         <RollingFile name="RollingFile"
-                     fileName="./${LOGS}/${FILENAME}"
+                     fileName="./${LOGS}/${FILENAME}.log"
                      filePattern="./${LOGS}/${ARCHIVED}/${FILENAME}-%d{yyyy-MM-dd}-%i.log">
             <PatternLayout>
-                <pattern>%d %p %C{1.} [%t] %msg%n%throwable{1}</pattern>
+                <pattern>%d %p %C{1.} [%t] %msg%n%throwable{2}</pattern>
             </PatternLayout>
             <Policies>
                 <!-- rollover on startup, daily and when the file reaches
@@ -37,7 +37,7 @@
 
     <Loggers>
         <!-- LOG everything at INFO level -->
-        <Root level="info">
+        <Root level="${env:ROOT_LOG_LEVEL:-ERROR}">
             <AppenderRef ref="Console" />
             <AppenderRef ref="RollingFile" />
         </Root>
